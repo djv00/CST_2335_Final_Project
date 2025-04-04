@@ -8,7 +8,7 @@
 
 library localization;
 
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
 /// Multi-language text definitions.
 Map<String, Map<String, String>> localizedStrings = {
