@@ -8,9 +8,10 @@
  *  - 提供 AppBar 中的信息按钮（显示使用说明）与语言切换按钮
  */
 
-import 'package:cst2335_final_project/models/event_planner_page.dart';
-import 'package:cst2335_final_project/models/expense_tracker_page.dart';
+
+
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'utils/localization.dart';
 import 'pages/event_planner_page.dart';
 import 'pages/customer_list_page.dart';
@@ -101,15 +102,15 @@ class _MainScreenState extends State<MainScreen> {
                 );
               },
             ),
-            ElevatedButton(
-              child: Text(getText('customerList')),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const CustomerListPage()),
-                );
-              },
-            ),
+            // ElevatedButton(
+            //   child: Text(getText('customerList')),
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(builder: (context) => const CustomerListPage()),
+            //     );
+            //   },
+            // ),
             ElevatedButton(
               child: Text(getText('expenseTracker')),
               onPressed: () {

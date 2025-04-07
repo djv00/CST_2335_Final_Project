@@ -21,3 +21,4 @@ abstract class MaintenanceDao {
 
   @update
   Future<void> updateMaintenance(MaintenanceItem maintenance);
+}

@@ -7,6 +7,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../database/database.dart';
 import '../dao/maintenance_dao.dart';
 import '../models/maintenance_item.dart';
@@ -77,7 +78,7 @@ class _VehicleMaintenancePageState extends State<VehicleMaintenancePage> {
         _mileageController.text.isNotEmpty &&
         _costController.text.isNotEmpty) {
       final newMaintenance = MaintenanceItem(null, _vehicleNameController.text, _vehicleTypeController.text,
-          _serviceTypeController.text, _serviceDateController.text, _mileageController.text, _costController.text);
+          _serviceTypeController.text, _serviceDateController.text, _mileageController.text, /*_costController.text*/);
       await maintenanceDao.insertMaintenance(newMaintenance);
       final loadedMaintenances = await maintenanceDao.findAllMaintenances();
       setState(() {
@@ -198,7 +199,7 @@ class _VehicleMaintenancePageState extends State<VehicleMaintenancePage> {
                 },
                 child: ListTile(
                   title: Text(maintenance.vehicleName),
-                  subtitle: Text(maintenance.serviceType),
+                  //subtitle: Text(maintenance.serviceType),
                   tileColor: selectedMaintenance?.id == maintenance.id ? Colors.blue.shade100 : null,
                 ),
               );
@@ -219,10 +220,10 @@ class _VehicleMaintenancePageState extends State<VehicleMaintenancePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text("Vehicle: ${selectedMaintenance!.vehicleName}", style: const TextStyle(fontSize: 20)),
-          Text("Type: ${selectedMaintenance!.vehicleType}"),
-          Text("Service: ${selectedMaintenance!.serviceType}"),
-          Text("Date: ${selectedMaintenance!.serviceDate}"),
-          Text("Mileage: ${selectedMaintenance!.mileage}"),
+          //Text("Type: ${selectedMaintenance!.vehicleType}"),
+          //Text("Service: ${selectedMaintenance!.serviceType}"),
+          //Text("Date: ${selectedMaintenance!.serviceDate}"),
+          //Text("Mileage: ${selectedMaintenance!.mileage}"),
           Text("Cost: ${selectedMaintenance!.cost}"),
           ElevatedButton(
             onPressed: () => _deleteMaintenance(selectedMaintenance!),
