@@ -22,7 +22,7 @@ part 'database.g.dart'; // 这行很重要，不要遗漏
 
 @Database(version: 1, entities: [EventItem, CustomerItem, ExpenseItem, MaintenanceItem])
 abstract class AppDatabase extends FloorDatabase {
-  EventDao get eventDao;
+  //EventDao get eventDao;
   //CustomerDao get customerDao;
   ExpenseDao get expenseDao;
   MaintenanceDao get maintenanceDao;

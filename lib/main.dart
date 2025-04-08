@@ -98,19 +98,19 @@ class _MainScreenState extends State<MainScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const EventPlannerPage()),
+                  MaterialPageRoute(builder: (context) => const ExpenseTrackerPage()),
                 );
               },
             ),
-            // ElevatedButton(
-            //   child: Text(getText('customerList')),
-            //   onPressed: () {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(builder: (context) => const CustomerListPage()),
-            //     );
-            //   },
-            // ),
+             ElevatedButton(
+               child: Text(getText('customerList')),
+               onPressed: () {
+                 Navigator.push(
+                   context,
+                   MaterialPageRoute(builder: (context) => const ExpenseTrackerPage()),
+                 );
+               },
+             ),
             ElevatedButton(
               child: Text(getText('expenseTracker')),
               onPressed: () {
