@@ -98,7 +98,7 @@ class _MainScreenState extends State<MainScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ExpenseTrackerPage()),
+                  MaterialPageRoute(builder: (context) => const EventPlannerPage()),
                 );
               },
             ),
