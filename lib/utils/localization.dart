@@ -41,15 +41,15 @@ Map<String, Map<String, String>> localizedStrings = {
   }
 };
 
-/// 当前语言，默认为英语
+/// Current language, default is English.
 String currentLanguage = 'en';
 
-/// 获取指定键的本地化文本
+/// Retrieve the localized text for the given key.
 String getText(String key) {
   return localizedStrings[currentLanguage]?[key] ?? key;
 }
 
-/// 切换语言（英语 ⇆ 简体中文）
+/// Toggle language between English and Simplified Chinese.
 void toggleLanguage() {
   currentLanguage = currentLanguage == 'en' ? 'zh' : 'en';
 }

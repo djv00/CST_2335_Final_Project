@@ -1,8 +1,8 @@
 /**
  * @file event_item.dart
- * @brief 事件数据模型
+ * @brief Entity class for the Event Planner module.
  *
- * 定义事件的数据结构
+ * Defines the fields for an event record.
  */
 
 import 'package:floor/floor.dart';
@@ -11,11 +11,12 @@ import 'package:floor/floor.dart';
 class EventItem {
   @PrimaryKey(autoGenerate: true)
   final int? id;
-
-  final String title;
+  final String name;
   final String date;
+  final String time;
   final String location;
   final String description;
 
-  EventItem(this.id, this.title, this.date, this.location, this.description);
+  EventItem(this.id, this.name, this.date, this.time, this.location,
+      this.description);
 }
