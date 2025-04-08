@@ -1,14 +1,13 @@
 /**
  * @file main.dart
- * @brief 项目主入口及导航页面
+
+ * @brief Main entry point and navigation page
  *
- * 此文件由团队协作完成，主要功能：
- *  - 初始化 MaterialApp
- *  - 显示包含 4 个按钮的主页面，每个按钮跳转到对应功能模块
- *  - 提供 AppBar 中的信息按钮（显示使用说明）与语言切换按钮
+ * This file is a collaborative effort. Its main functions are:
+ *  - Initializing the MaterialApp.
+ *  - Displaying the main page with 4 buttons, each navigating to a module.
+ *  - Providing an info button (to show usage instructions) and a language switch button in the AppBar.
  */
-
-
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -18,18 +17,23 @@ import 'pages/customer_list_page.dart';
 import 'pages/expense_tracker_page.dart';
 import 'pages/vehicle_maintenance_page.dart';
 
+
 void main() {
   runApp(const MyApp());
 }
 
-/// 主应用入口组件
+
+/// The main application widget.
+
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
-/// 应用状态，包含全局主题和路由配置
+
+/// Application state with global theme and routing.
+
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
@@ -41,7 +45,8 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-/// 主页面，包含四个按钮导航到各功能模块
+/// The main screen that contains 4 buttons to navigate to each module.
+
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
   @override
@@ -49,14 +54,18 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  /// 切换语言
+
+  /// Toggle language between English and Simplified Chinese.
+
   void _toggleLanguage() {
     setState(() {
       toggleLanguage();
     });
   }
 
-  /// 显示使用说明
+
+  /// Display usage instructions in a dialog.
+
   void _showInstructions() {
     showDialog(
       context: context,
@@ -73,7 +82,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

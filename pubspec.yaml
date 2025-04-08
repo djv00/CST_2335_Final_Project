@@ -41,6 +41,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  floor: ^1.5.0
+  floor_generator: ^1.5.0
+  build_runner: ^2.4.13
+  flutter_secure_storage: ^9.0.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

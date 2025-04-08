@@ -1,15 +1,17 @@
 /**
  * @file localization.dart
- * @brief 多语言支持相关代码
+ * @brief Multi-language support code.
  *
- * 定义了英语和简体中文两种语言的文本，以及切换语言的函数。
+ * Defines texts in English and Simplified Chinese and provides a function
+ * to switch languages.
  */
 
 library localization;
 
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
-/// 定义多语言文本
+// Multi-language text definitions.
+
 Map<String, Map<String, String>> localizedStrings = {
   'en': {
     'appTitle': 'Graphical Interface Programming',
