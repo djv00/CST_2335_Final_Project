@@ -1,8 +1,11 @@
 /**
  * @file customer_item.dart
+
  * @brief Entity class for the Customer List module.
  *
  * Defines the fields for a customer record.
+
+
  */
 
 import 'package:floor/floor.dart';
@@ -18,3 +21,4 @@ class CustomerItem {
 
   CustomerItem(this.id, this.firstName, this.lastName, this.address, this.birthday);
 }
+

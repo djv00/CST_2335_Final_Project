@@ -10,7 +10,8 @@ library localization;
 
 // import 'package:flutter/material.dart';
 
-/// Multi-language text definitions.
+// Multi-language text definitions.
+
 Map<String, Map<String, String>> localizedStrings = {
   'en': {
     'appTitle': 'Graphical Interface Programming',
