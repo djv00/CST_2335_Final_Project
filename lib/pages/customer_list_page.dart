@@ -31,6 +31,8 @@ class _CustomerListPageState extends State<CustomerListPage> {
   late CustomerDao customerDao;
   final _storage = const FlutterSecureStorage();
 
+  bool isEditing = false;
+
   CustomerItem? selectedCustomer;
 
   @override
@@ -45,8 +47,8 @@ class _CustomerListPageState extends State<CustomerListPage> {
     _lastNameController.text = await _storage.read(key: 'customer_lastName') ?? '';
     _addressController.text = await _storage.read(key: 'customer_address') ?? '';
     _birthdayController.text = await _storage.read(key: 'customer_birthday') ?? '';
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(getText('copyPrevious'))));
+    // ScaffoldMessenger.of(context)
+        // .showSnackBar(SnackBar(content: Text(getText('copyPrevious'))));
   }
 
   Future<void> _saveCurrentInput() async {
@@ -66,7 +68,13 @@ class _CustomerListPageState extends State<CustomerListPage> {
   }
 
   void _addCustomer() async {
-    if (_firstNameController.text.isNotEmpty &&
+    if (_firstNameController.text.isEmpty ||
+        _lastNameController.text.isEmpty ||
+        _addressController.text.isEmpty ||
+        _birthdayController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Please fill in all the customer information.')));
+    } else if (_firstNameController.text.isNotEmpty &&
         _lastNameController.text.isNotEmpty &&
         _addressController.text.isNotEmpty &&
         _birthdayController.text.isNotEmpty) {
@@ -99,7 +107,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
       selectedCustomer = null;
     });
     ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(getText('delete'))));
+        .showSnackBar(SnackBar(content: Text(getText('Deleted'))));
   }
 
   Widget _responsiveLayout() {
@@ -140,9 +148,18 @@ class _CustomerListPageState extends State<CustomerListPage> {
                 controller: _birthdayController,
                 decoration: InputDecoration(labelText: '${getText('enter')} Birthday'),
               ),
-              ElevatedButton(
-                onPressed: _addCustomer,
-                child: Text(getText('add')),
+              Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: _addCustomer,
+                    child: Text(getText('Add')),
+                  ),
+                  const SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: _clearInput,
+                    child: Text(getText('Clear')), // assumes 'clear' key exists in localization
+                  ),
+                ],
               ),
             ],
           ),
@@ -167,14 +184,14 @@ class _CustomerListPageState extends State<CustomerListPage> {
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.pop(context),
-                          child: Text(getText('no')),
+                          child: Text(getText('No')),
                         ),
                         TextButton(
                           onPressed: () {
                             _deleteCustomer(customer);
                             Navigator.pop(context);
                           },
-                          child: Text(getText('yes')),
+                          child: Text(getText('Yes')),
                         ),
                       ],
                     ),
@@ -197,22 +214,120 @@ class _CustomerListPageState extends State<CustomerListPage> {
     if (selectedCustomer == null) {
       return const Center(child: Text('No customer selected'));
     }
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Name: ${selectedCustomer!.firstName} ${selectedCustomer!.lastName}",
-              style: const TextStyle(fontSize: 20)),
-          Text("Address: ${selectedCustomer!.address}"),
-          Text("Birthday: ${selectedCustomer!.birthday}"),
-          ElevatedButton(
-            onPressed: () => _deleteCustomer(selectedCustomer!),
-            child: Text(getText('delete')),
-          ),
-        ],
-      ),
-    );
+
+    if (isEditing) {
+      return Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextField(
+              controller: _firstNameController,
+              decoration: InputDecoration(labelText: '${getText('enter')} First Name'),
+            ),
+            TextField(
+              controller: _lastNameController,
+              decoration: InputDecoration(labelText: '${getText('enter')} Last Name'),
+            ),
+            TextField(
+              controller: _addressController,
+              decoration: InputDecoration(labelText: '${getText('enter')} Address'),
+            ),
+            TextField(
+              controller: _birthdayController,
+              decoration: InputDecoration(labelText: '${getText('enter')} Birthday'),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      final updated = CustomerItem(
+                        selectedCustomer!.id,
+                        _firstNameController.text,
+                        _lastNameController.text,
+                        _addressController.text,
+                        _birthdayController.text,
+                      );
+                      await customerDao.updateCustomer(updated);
+                      final refreshed = await customerDao.findAllCustomers();
+                      setState(() {
+                        customers = refreshed;
+                        selectedCustomer = updated;
+                        isEditing = false;
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(getText('Updated'))),
+                      );
+                    },
+                    child: Text(getText('Update')),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        isEditing = false;
+                      });
+                    },
+                    child: Text(getText('Cancel')),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+          ],
+        ),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Name: ${selectedCustomer!.firstName} ${selectedCustomer!.lastName}",
+                style: const TextStyle(fontSize: 20)),
+            Text("Address: ${selectedCustomer!.address}"),
+            Text("Birthday: ${selectedCustomer!.birthday}"),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      isEditing = true;
+                      _firstNameController.text = selectedCustomer!.firstName;
+                      _lastNameController.text = selectedCustomer!.lastName;
+                      _addressController.text = selectedCustomer!.address;
+                      _birthdayController.text = selectedCustomer!.birthday;
+                    });
+                  },
+                  child: Text(getText('Edit')),
+                ),
+                const SizedBox(width: 12),
+                ElevatedButton(
+                  onPressed: () => _deleteCustomer(selectedCustomer!),
+                  child: Text(getText('Delete')),
+                ),
+                const SizedBox(width: 12),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedCustomer = null;
+                      isEditing = false;
+                      _clearInput();
+                    });
+                  },
+                  child: Text(getText('Back')),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   @override
