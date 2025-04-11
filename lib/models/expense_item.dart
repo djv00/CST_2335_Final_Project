@@ -18,11 +18,10 @@ class ExpenseItem {
   final String date;
   final String paymentMethod;
 
-  // 添加静态ID计数器，按照课程要求
   static int ID = 1;
 
   ExpenseItem(this.id, this.expenseName, this.category, this.amount, this.date, this.paymentMethod) {
-    // 确保ID是递增的
+
     if (id != null && id! >= ID) {
       ID = id! + 1;
     }
