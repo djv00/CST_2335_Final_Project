@@ -32,6 +32,13 @@ Map<String, Map<String, String>> localizedStrings = {
     'enter': 'Please enter',
     'yes': 'Yes',
     'no': 'No',
+    'noCustomer': 'No customer is selected',
+    'fname': 'First Name',
+    'lname': 'Last Name',
+    'address': 'Address',
+    'bday': 'Birthday',
+    'name': 'Name',
+    'back': 'Back',
     // 完整的表单字段标签
     'expenseName': 'Expense Name',
     'category': 'Category',
