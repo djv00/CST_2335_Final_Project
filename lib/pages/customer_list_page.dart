@@ -73,7 +73,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
         _addressController.text.isEmpty ||
         _birthdayController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please fill in all the customer information.')));
+          SnackBar(content: Text(getText('pleaseFill'))));
     } else if (_firstNameController.text.isNotEmpty &&
         _lastNameController.text.isNotEmpty &&
         _addressController.text.isNotEmpty &&
