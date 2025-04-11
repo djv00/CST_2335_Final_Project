@@ -48,7 +48,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
     _addressController.text = await _storage.read(key: 'customer_address') ?? '';
     _birthdayController.text = await _storage.read(key: 'customer_birthday') ?? '';
     // ScaffoldMessenger.of(context)
-        // .showSnackBar(SnackBar(content: Text(getText('copyPrevious'))));
+    // .showSnackBar(SnackBar(content: Text(getText('copyPrevious'))));
   }
 
   Future<void> _saveCurrentInput() async {
@@ -107,7 +107,27 @@ class _CustomerListPageState extends State<CustomerListPage> {
       selectedCustomer = null;
     });
     ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(getText('Deleted'))));
+        .showSnackBar(SnackBar(content: Text(getText('delete'))));
+  }
+
+  void _updateCustomer() async {
+    final updated = CustomerItem(
+      selectedCustomer!.id,
+      _firstNameController.text,
+      _lastNameController.text,
+      _addressController.text,
+      _birthdayController.text,
+    );
+    await customerDao.updateCustomer(updated);
+    final refreshed = await customerDao.findAllCustomers();
+    setState(() {
+      customers = refreshed;
+      selectedCustomer = updated;
+      isEditing = false;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(getText('update'))),
+    );
   }
 
   Widget _responsiveLayout() {
@@ -134,30 +154,30 @@ class _CustomerListPageState extends State<CustomerListPage> {
             children: [
               TextField(
                 controller: _firstNameController,
-                decoration: InputDecoration(labelText: '${getText('enter')} First Name'),
+                decoration: InputDecoration(labelText: "${getText('enter')} ${getText('fname')}"),
               ),
               TextField(
                 controller: _lastNameController,
-                decoration: InputDecoration(labelText: '${getText('enter')} Last Name'),
+                decoration: InputDecoration(labelText: "${getText('enter')} ${getText('lname')}"),
               ),
               TextField(
                 controller: _addressController,
-                decoration: InputDecoration(labelText: '${getText('enter')} Address'),
+                decoration: InputDecoration(labelText: "${getText('enter')} ${getText('address')}"),
               ),
               TextField(
                 controller: _birthdayController,
-                decoration: InputDecoration(labelText: '${getText('enter')} Birthday'),
+                decoration: InputDecoration(labelText: "${getText('enter')} ${getText('bday')}"),
               ),
               Row(
                 children: [
                   ElevatedButton(
                     onPressed: _addCustomer,
-                    child: Text(getText('Add')),
+                    child: Text(getText('add')),
                   ),
                   const SizedBox(width: 10),
                   ElevatedButton(
                     onPressed: _clearInput,
-                    child: Text(getText('Clear')), // assumes 'clear' key exists in localization
+                    child: Text(getText('clear')),
                   ),
                 ],
               ),
@@ -184,14 +204,14 @@ class _CustomerListPageState extends State<CustomerListPage> {
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.pop(context),
-                          child: Text(getText('No')),
+                          child: Text(getText('cancel')),
                         ),
                         TextButton(
                           onPressed: () {
                             _deleteCustomer(customer);
                             Navigator.pop(context);
                           },
-                          child: Text(getText('Yes')),
+                          child: Text(getText('ok')),
                         ),
                       ],
                     ),
@@ -212,7 +232,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
 
   Widget _buildDetailsView() {
     if (selectedCustomer == null) {
-      return const Center(child: Text('No customer selected'));
+      return Center(child: Text(getText('noCustomer')));
     }
 
     if (isEditing) {
@@ -223,45 +243,27 @@ class _CustomerListPageState extends State<CustomerListPage> {
           children: [
             TextField(
               controller: _firstNameController,
-              decoration: InputDecoration(labelText: '${getText('enter')} First Name'),
+              decoration: InputDecoration(labelText: "${getText('enter')} ${getText('fname')}"),
             ),
             TextField(
               controller: _lastNameController,
-              decoration: InputDecoration(labelText: '${getText('enter')} Last Name'),
+              decoration: InputDecoration(labelText: "${getText('enter')} ${getText('lname')}"),
             ),
             TextField(
               controller: _addressController,
-              decoration: InputDecoration(labelText: '${getText('enter')} Address'),
+              decoration: InputDecoration(labelText: "${getText('enter')} ${getText('address')}"),
             ),
             TextField(
               controller: _birthdayController,
-              decoration: InputDecoration(labelText: '${getText('enter')} Birthday'),
+              decoration: InputDecoration(labelText: "${getText('enter')} ${getText('bday')}"),
             ),
             const SizedBox(height: 12),
             Row(
               children: [
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () async {
-                      final updated = CustomerItem(
-                        selectedCustomer!.id,
-                        _firstNameController.text,
-                        _lastNameController.text,
-                        _addressController.text,
-                        _birthdayController.text,
-                      );
-                      await customerDao.updateCustomer(updated);
-                      final refreshed = await customerDao.findAllCustomers();
-                      setState(() {
-                        customers = refreshed;
-                        selectedCustomer = updated;
-                        isEditing = false;
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(getText('Updated'))),
-                      );
-                    },
-                    child: Text(getText('Update')),
+                    onPressed: _updateCustomer,
+                    child: Text(getText('update')),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -272,7 +274,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
                         isEditing = false;
                       });
                     },
-                    child: Text(getText('Cancel')),
+                    child: Text(getText('cancel')),
                   ),
                 ),
               ],
@@ -287,10 +289,10 @@ class _CustomerListPageState extends State<CustomerListPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Name: ${selectedCustomer!.firstName} ${selectedCustomer!.lastName}",
+            Text("${getText('name')}: ${selectedCustomer!.firstName} ${selectedCustomer!.lastName}",
                 style: const TextStyle(fontSize: 20)),
-            Text("Address: ${selectedCustomer!.address}"),
-            Text("Birthday: ${selectedCustomer!.birthday}"),
+            Text("${getText('address')}: ${selectedCustomer!.address}"),
+            Text("${getText('bday')}: ${selectedCustomer!.birthday}"),
             const SizedBox(height: 12),
             Row(
               children: [
@@ -304,12 +306,12 @@ class _CustomerListPageState extends State<CustomerListPage> {
                       _birthdayController.text = selectedCustomer!.birthday;
                     });
                   },
-                  child: Text(getText('Edit')),
+                  child: Text(getText('edit')),
                 ),
                 const SizedBox(width: 12),
                 ElevatedButton(
                   onPressed: () => _deleteCustomer(selectedCustomer!),
-                  child: Text(getText('Delete')),
+                  child: Text(getText('delete')),
                 ),
                 const SizedBox(width: 12),
                 ElevatedButton(
@@ -320,7 +322,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
                       _clearInput();
                     });
                   },
-                  child: Text(getText('Back')),
+                  child: Text(getText('back')),
                 ),
               ],
             ),
