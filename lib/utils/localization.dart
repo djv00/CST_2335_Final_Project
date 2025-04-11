@@ -32,6 +32,7 @@ Map<String, Map<String, String>> localizedStrings = {
     'enter': 'Please enter',
     'yes': 'Yes',
     'no': 'No',
+    'clear': 'Clear',
     'noCustomer': 'No customer is selected',
     'fname': 'First Name',
     'lname': 'Last Name',
@@ -39,7 +40,6 @@ Map<String, Map<String, String>> localizedStrings = {
     'bday': 'Birthday',
     'name': 'Name',
     'back': 'Back',
-    'clear': 'Clear',
     'pleaseFill': 'Please fill in all the customer information',
     // 完整的表单字段标签
     'expenseName': 'Expense Name',
@@ -67,6 +67,7 @@ Map<String, Map<String, String>> localizedStrings = {
     'enter': '请输入',
     'yes': '是',
     'no': '否',
+    'clear': '清除内容',
     'noCustomer': '无客户',
     'fname': '名',
     'lname': '姓',
@@ -74,7 +75,6 @@ Map<String, Map<String, String>> localizedStrings = {
     'bday': '生日',
     'name': '姓名',
     'back': '返回',
-    'clear': '清除',
     'pleaseFill': '请输入所有的客户信息',
     // 完整的表单字段标签
     'expenseName': '费用名称',
